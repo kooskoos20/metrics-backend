@@ -1,8 +1,15 @@
 import 'dotenv/config'
-import express from 'express'
-import { healthMetricsController } from './controllers/healthmetrics.controller'
+import express, { json, Request, Response } from 'express'
+import { RegisterRoutes } from '../build/routes'
+import swaggerUi from "swagger-ui-express"
 
-const app = express()
-app.use("/metrics", healthMetricsController)
+export const app = express()
 
-app.listen(3000, () => console.log("Application listening at http://localhost:3000"))
+app.use(json())
+app.use("/docs", swaggerUi.serve, async (_req: Request, res: Response) => {
+    return res.send(
+      swaggerUi.generateHTML(await import("../build/swagger.json"))
+    );
+  });
+
+RegisterRoutes(app)

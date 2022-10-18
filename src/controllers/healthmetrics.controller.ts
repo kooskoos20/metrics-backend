@@ -1,11 +1,15 @@
 import { Request, Response, Router } from "express";
+import { Get, Path, Route } from "tsoa";
+import { HealthMetricModel } from "../models/healthmetrics.model";
 import { healthMetricsService } from "../services/healthmetrics.service";
 
-export const healthMetricsController = Router()
-
-healthMetricsController.get("/health", async(req: Request, res: Response) => {
-    const metrics = await healthMetricsService.getHealthMetrics()
-    res.json({
-        metrics
-    })
-})
+@Route("health")
+export class HealthMetricsController {
+    /**
+    * Retrieves the health metrics for the app.
+    */
+  @Get()
+  public async getUser(): Promise<HealthMetricModel[]> {
+    return await healthMetricsService.getHealthMetrics()
+  }
+}

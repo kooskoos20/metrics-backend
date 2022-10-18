@@ -1,0 +1,113 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"SessionMetrics": {
+				"properties": {
+					"errored": {
+						"type": "number",
+						"format": "double"
+					},
+					"crashed": {
+						"type": "number",
+						"format": "double"
+					},
+					"abnormal": {
+						"type": "number",
+						"format": "double"
+					},
+					"healthy": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"errored",
+					"crashed",
+					"abnormal",
+					"healthy"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HealthMetricModel": {
+				"properties": {
+					"start": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"end": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"session_sum_in_millis": {
+						"$ref": "#/components/schemas/SessionMetrics"
+					},
+					"user_count": {
+						"type": "number",
+						"format": "double"
+					},
+					"release": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"start",
+					"end",
+					"session_sum_in_millis",
+					"user_count",
+					"release"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "metrics-backend",
+		"version": "1.0.0",
+		"description": "Backend for metrics",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Omkar Birade"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/health": {
+			"get": {
+				"operationId": "GetUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/HealthMetricModel"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"description": "Retrieves the health metrics for the app.",
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
